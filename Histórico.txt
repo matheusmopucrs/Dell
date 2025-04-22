@@ -1,0 +1,26 @@
+
+=== Torneio AnteriorStartup | Pts | Pitches | Bugs | Tração | Inv. | Fake
+------------------------------------------------------------
+Dell | 134 | 2 | 0 | 2 | 1 | 1
+Nvidia | 81 | 2 | 2 | 1 | 2 | 2
+Apple | 69 | 0 | 1 | 1 | 0 | 0
+HP | 61 | 1 | 1 | 1 | 1 | 1
+
+=== Torneio AnteriorStartup | Pts | Pitches | Bugs | Tração | Inv. | Fake
+------------------------------------------------------------
+
+=== Torneio Anterior ===
+Startup             Pts   Pitches  Bugs  traction Inv.  Fake  
+----------------------------------------------------------------------
+1                   130   0        0     0        0     0     
+1                   84    2        2     2        2     2     
+1                   61    1        1     1        1     1     
+                    61    1        1     1        1     1     
+
+=== Torneio Anterior ===
+Startup             Pts   Pitches  Bugs  traction Inv.  Fake  
+----------------------------------------------------------------------
+Dell                148   2        0     2        0     0     
+Samsung             112   1        0     2        0     0     
+Apple               67    0        0     1        1     0     
+Hp                  62    0        0     0        0     1     

@@ -4,13 +4,7 @@ import random
 from Startup import Startup, EVENTS
 
 
-class Battle:
-    def __init__(self, s1: Startup, s2: Startup):
-        self.s1 = s1
-        self.s2 = s2
-        self.done = False
-        
-        
+# Primeira parte: Cadastro das startups (pré-torneio)
 def register_startups():
     startups = []
     while True:
@@ -30,18 +24,32 @@ def register_startups():
     return startups
 
 
-def administer(self):
+# Segunda parte: Definição da batalha entre startups
+class Battle:
+    def __init__(self, s1: Startup, s2: Startup):
+        self.s1 = s1
+        self.s2 = s2
+        self.done = False
+
+ # Exibe a batalha e aplica os eventos (pitches, bugs, etc.)
+    def administer(self):
         print(f"\nBatalha: {self.s1.name} ({self.s1.score}) x {self.s2.name} ({self.s2.score})")
         applied = {self.s1.name: set(), self.s2.name: set()}
 
         for type, (description, _) in EVENTS.items():
             for startup in (self.s1, self.s2):
                 if type not in applied[startup.name]:
-                    resp = input(f"  {startup.name}: ocorreu '{description}'? (s/n) ").strip().lower() 
-                    if resp == 's':
+                    while True:
+                        resp = input(f"  {startup.name}: ocorreu '{description}'? (y/n) ").strip().lower()
+                        if resp in ('y', 'n'):
+                            break
+                        print("  ❌ Resposta inválida. Digite apenas 'y' para sim ou 'n' para não.")
+                    
+                    if resp == 'y':
                         startup.apply_event(type)
                         applied[startup.name].add(type)
 
+ # Após os eventos, decide o vencedor
         print(f"  Placar pós‑eventos: {self.s1.name}={self.s1.score}, {self.s2.name}={self.s2.score}")
 
         if self.s1.score == self.s2.score:
@@ -57,6 +65,7 @@ def administer(self):
         self.done = True
         return winner
 
+# Função que executa o torneio, realizando rodadas de batalhas
 def run_tournament(startups):
     round_num = 1
     participants = startups[:]
@@ -68,16 +77,17 @@ def run_tournament(startups):
         battles = [Battle(participants[i], participants[i + 1])
                    for i in range(0, len(participants), 2)]
 
+# Administra as batalhas pendentes até todas terminarem
         while any(not b.done for b in battles):
             print("\nBatalhas pendentes:")
-            for idx, b in enumerate(battles, 1):
+            for number, b in enumerate(battles, 1):
                 if not b.done:
-                    print(f"  {idx}: {b.s1.name} x {b.s2.name}")
+                    print(f"  {number}: {b.s1.name} x {b.s2.name}")
             choice = input("Selecione o número da batalha para administrar: ").strip()
             if choice.isdigit():
-                idx = int(choice) - 1
-                if 0 <= idx < len(battles) and not battles[idx].done:
-                    battles[idx].administer()
+                number = int(choice) - 1
+                if 0 <= number < len(battles) and not battles[number].done:
+                    battles[number].administer()
 
         participants = [b.s1 if b.s1.score > b.s2.score else b.s2 for b in battles]
         round_num += 1
@@ -87,11 +97,28 @@ def run_tournament(startups):
     return startups
 
 
+def get_score(startup):
+    return startup.score
+
+# Função que exibe os resultados finais do torneio e salva em um arquivo(Inovação)
 def show_results(startups):
     print("\n=== Classificação Final ===")
-    print(f"{'Startup':<20}{'Pts':<6}{'Pitches':<8}{'Bugs':<6}"
-          f"{'Tração':<7}{'Inv.':<6}{'Fake':<6}")
-    for s in sorted(startups, type=lambda x: x.score, reverse=True):
-        print(f"{s.name:<20}{s.score:<6}{s.stats['pitch']:<8}"
-              f"{s.stats['bugs']:<6}{s.stats['traction']:<7}"
-              f"{s.stats['investor']:<6}{s.stats['fake_news']:<6}")
+    print(f"{'Startup':<20}{'Pts':<6}{'Pitches':<9}{'Bugs':<6}{'traction':<9}{'Inv.':<6}{'Fake':<6}")
+    print("-" * 70)
+
+    startups_sorted = sorted(startups, key=get_score)
+    startups_sorted = list(reversed(startups_sorted))
+
+    with open("Histórico.txt", "a", encoding="utf-8") as file:
+        file.write("\n=== Torneio Anterior ===\n")
+        file.write(f"{'Startup':<20}{'Pts':<6}{'Pitches':<9}{'Bugs':<6}{'traction':<9}{'Inv.':<6}{'Fake':<6}\n")
+        file.write("-" * 70 + "\n")
+
+        for startup in startups_sorted:
+            linha = f"{startup.name:<20}{startup.score:<6}{startup.stats['pitch']:<9}" \
+                    f"{startup.stats['bugs']:<6}{startup.stats['traction']:<9}" \
+                    f"{startup.stats['investor']:<6}{startup.stats['fake_news']:<6}"
+            print(linha)
+            file.write(linha + "\n")
+
+
