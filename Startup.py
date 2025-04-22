@@ -24,7 +24,7 @@ class Startup:
 EVENTS = {
     'pitch':       ('Pitch convincente',      +6),
     'bugs':        ('Produto com bugs',       -4),
-    'traction':    ('Boa tração de usuários', +3),
+    'Tração':      ('Boa tração de usuários', +3), 
     'investor':    ('Investidor irritado',    -6),
     'fake_news':   ('Fake news no pitch',     -8),
 }
