@@ -103,7 +103,7 @@ def get_score(startup):
 # Função que exibe os resultados finais do torneio e salva em um arquivo(Inovação)
 def show_results(startups):
     print("\n=== Classificação Final ===")
-    print(f"{'Startup':<20}{'Pts':<6}{'Pitches':<9}{'Bugs':<6}{'traction':<9}{'Inv.':<6}{'Fake':<6}")
+    print(f"{'Startup':<20}{'Pts':<6}{'Pitches':<9}{'Bugs':<6}{'Tração':<9}{'Inv.':<6}{'Fake':<6}")
     print("-" * 70)
 
     startups_sorted = sorted(startups, key=get_score)
@@ -111,12 +111,12 @@ def show_results(startups):
 
     with open("Histórico.txt", "a", encoding="utf-8") as file:
         file.write("\n=== Torneio Anterior ===\n")
-        file.write(f"{'Startup':<20}{'Pts':<6}{'Pitches':<9}{'Bugs':<6}{'traction':<9}{'Inv.':<6}{'Fake':<6}\n")
+        file.write(f"{'Startup':<20}{'Pts':<6}{'Pitches':<9}{'Bugs':<6}{'Tração':<9}{'Inv.':<6}{'Fake':<6}\n")
         file.write("-" * 70 + "\n")
 
         for startup in startups_sorted:
             linha = f"{startup.name:<20}{startup.score:<6}{startup.stats['pitch']:<9}" \
-                    f"{startup.stats['bugs']:<6}{startup.stats['traction']:<9}" \
+                    f"{startup.stats['bugs']:<6}{startup.stats['Tração']:<9}" \
                     f"{startup.stats['investor']:<6}{startup.stats['fake_news']:<6}"
             print(linha)
             file.write(linha + "\n")
