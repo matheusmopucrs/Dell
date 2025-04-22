@@ -119,6 +119,4 @@ def show_results(startups):
                     f"{startup.stats['bugs']:<6}{startup.stats['Tração']:<9}" \
                     f"{startup.stats['investor']:<6}{startup.stats['fake_news']:<6}"
             print(linha)
-            file.write(linha + "\n")
-
-
+            file.write(linha + "\n") 
